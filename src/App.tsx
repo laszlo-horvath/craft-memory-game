@@ -1,56 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+// import React from 'react';
+// import logo from './logo.svg';
+// import { Counter } from './features/counter/Counter';
+
+import { CardsContainer } from './features/card/CardsContainer';
+
 import './App.css';
+import { Header } from './features/header/Header';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
+    <div className="App h-screen">
+      {/* <div className="pointer-events-none fixed top-0 left-0 right-0 bottom-0 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600" /> */}
+
+      {/* <header className="App-header"> */}
+        {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        {/* <Counter /> */}
+        {/* <p>
           Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+        </p> */}
+      {/* </header> */}
+
+      <Header />
+
+      <CardsContainer />
     </div>
   );
 }
