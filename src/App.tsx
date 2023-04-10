@@ -10,15 +10,7 @@ import { Header } from './features/header/Header';
 function App() {
   return (
     <div className="App h-screen">
-      {/* <div className="pointer-events-none fixed top-0 left-0 right-0 bottom-0 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600" /> */}
-
-      {/* <header className="App-header"> */}
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        {/* <Counter /> */}
-        {/* <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p> */}
-      {/* </header> */}
+      <div className=" pointer-events-none fixed top-0 left-0 right-0 bottom-0 pattern-dots pattern-purple-500 pattern-bg-white pattern-size-6 pattern-opacity-5"></div>
 
       <Header />
 
