@@ -4,9 +4,7 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
   decrement,
   increment,
-  incrementByAmount,
   incrementAsync,
-  incrementIfOdd,
   selectCount,
 } from './counterSlice';
 import styles from './Counter.module.css';
@@ -45,22 +43,10 @@ export function Counter() {
           onChange={(e) => setIncrementAmount(e.target.value)}
         />
         <button
-          className={styles.button}
-          onClick={() => dispatch(incrementByAmount(incrementValue))}
-        >
-          Add Amount
-        </button>
-        <button
           className={styles.asyncButton}
           onClick={() => dispatch(incrementAsync(incrementValue))}
         >
           Add Async
-        </button>
-        <button
-          className={styles.button}
-          onClick={() => dispatch(incrementIfOdd(incrementValue))}
-        >
-          Add If Odd
         </button>
       </div>
     </div>
