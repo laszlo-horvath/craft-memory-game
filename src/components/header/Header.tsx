@@ -1,6 +1,6 @@
 import cx from "classnames";
 import { useAppSelector } from "redux/hooks";
-import { selectBest, selectCount } from "components/counter/counterSlice";
+import { selectBest, selectCount } from "redux/counterSlice";
 
 export const Header = () => {
   const moves = useAppSelector(selectCount);

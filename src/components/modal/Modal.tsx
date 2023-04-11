@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import useSound from 'use-sound';
-import { selectBest } from "components/counter/counterSlice";
+import { selectBest } from "redux/counterSlice";
 import { useAppSelector } from "redux/hooks";
 
 interface ModalProps {

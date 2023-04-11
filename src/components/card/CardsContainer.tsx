@@ -4,7 +4,7 @@ import Card from "components/card/Card";
 import { ICard } from "types";
 
 import { useAppDispatch, useAppSelector } from "redux/hooks";
-import { checkBestScore, increment, reset, selectCount } from "components/counter/counterSlice";
+import { checkBestScore, increment, reset, selectCount } from "redux/counterSlice";
 import { Modal } from "components/modal/Modal";
 import { CARD_COUNT } from "config";
 import { getShuffledCardsWithNewImages } from "lib/api";
