@@ -1,50 +1,27 @@
 import { useEffect, useState } from "react";
 import useSound from 'use-sound';
-import Card from "./Card";
-import { fetcher, shuffle } from "../../lib/utils";
-import { ICard } from "../../../types";
-// import toast from 'react-hot-toast';
+import Card from "components/card/Card";
+import { ICard } from "types";
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { checkBestScore, increment, reset, selectCount } from "./../counter/counterSlice";
-import { Modal } from "../modal/Modal";
-
-// TODO make this dynamic based on difficulty
-const CARD_COUNT = 24;
-
-const API_URL = `https://dog.ceo/api/breeds/image/random/${CARD_COUNT / 2}`;
-
-const getShuffledCardsWithNewImages = async () => {
-  const { message } = await fetcher(API_URL);
-
-  const cards = message.map((url: any, index: number): ICard => {
-    return {
-      index,
-      url,
-      isFlipped: false,
-      isInactive: false,
-    };
-  });
-
-  const cardsCopy = [...cards].map((x) => ({
-    ...x,
-    index: cards.length + x.index,
-  }));
-  const shuffledCards = shuffle(cards.concat(cardsCopy));
-  return shuffledCards;
-};
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { checkBestScore, increment, reset, selectCount } from "components/counter/counterSlice";
+import { Modal } from "components/modal/Modal";
+import { CARD_COUNT } from "config";
+import { getShuffledCardsWithNewImages } from "lib/api";
 
 export const CardsContainer = () => {
+  // redux store
   const dispatch = useAppDispatch();
+  const moves = useAppSelector(selectCount);
+
+  // local states
   const [cards, setCards] = useState<ICard[]>([]);
   const [matches, setMatches] = useState({});
   const [isDisabled, setIsDisabled] = useState(false);
   const [openCards, setOpenCards] = useState<ICard[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const moves = useAppSelector(selectCount);
-
-  const [playDogBarkSound] = useSound('/sounds/dog-bark-1.ogg');
+  const [playDogBarkSound] = useSound(['/sounds/dog-bark-1.ogg', '/sounds/dog-bark-1.m4a']);
 
   const newGame = async () => {
     const shuffledCards = await getShuffledCardsWithNewImages();
@@ -86,9 +63,7 @@ export const CardsContainer = () => {
     const isMatch = firstCard.url === secondCard.url;
 
     if (isMatch) {
-      // firstCard.isFlipped = false;
       firstCard.isInactive = true;
-      // secondCard.isFlipped = false;
       secondCard.isInactive = true;
 
       playDogBarkSound();
@@ -110,17 +85,18 @@ export const CardsContainer = () => {
       dispatch(increment());
       setIsDisabled(true);
     } else {
-      // clearTimeout(timeout.current);
       setOpenCards([card]);
     }
   };
 
   const restartGame = () => {
-    setOpenCards([]);
-    dispatch(reset()); //TODO rename reset
-    setMatches({});
-    closeModal();
     newGame();
+    dispatch(reset());
+    setOpenCards([]);
+    setMatches({});
+
+    // wait until cards animate in
+    setTimeout(() => closeModal(), 500);
   };
 
   const closeModal = () => {

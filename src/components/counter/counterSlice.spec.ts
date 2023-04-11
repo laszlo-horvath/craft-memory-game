@@ -3,7 +3,7 @@ import counterReducer, {
   increment,
   decrement,
   reset,
-} from './counterSlice';
+} from 'components/counter/counterSlice';
 
 describe('counter reducer', () => {
   const initialState: CounterState = {
