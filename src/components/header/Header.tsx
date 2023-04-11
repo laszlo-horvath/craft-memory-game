@@ -1,12 +1,18 @@
 import cx from "classnames";
-import { useAppSelector } from "redux/hooks";
-import { selectBest, selectCount } from "redux/counterSlice";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { selectAudio, selectBest, selectCount, toggleAudio } from "redux/counterSlice";
 
 export const Header = () => {
+  const dispatch = useAppDispatch();
   const moves = useAppSelector(selectCount);
   const best = useAppSelector(selectBest);
+  const isAudioEnabled = useAppSelector(selectAudio);
 
   const poorPerformanceIndicator = () => best > 0 && moves > best * 1.5 && <span className="pl-1">😢</span>;
+
+  const toggleAudioEffects = () => {
+    dispatch(toggleAudio());
+  };
 
   return (
     <header className="z-[5] fixed top-0 left-0 right-0 h-10 shadow-lg flex items-center bg-gradient-to-r from-craft-blue to-pink-600 via-craft-purple animate-gradient-x">
@@ -26,6 +32,15 @@ export const Header = () => {
           {best > 0 && <p className="text-sm">
             Best: <span>{best}</span>
           </p>}
+          <div
+            onClick={() => toggleAudioEffects()}
+            className={cx("cursor-pointer w-4 h-4 bg-cover", {
+              "bg-left": isAudioEnabled,
+              "bg-right": !isAudioEnabled,
+            })}
+            style={{ backgroundImage: "url(/audio-icons.png)" }}
+          >
+          </div>
         </div>
       </div>
     </header>

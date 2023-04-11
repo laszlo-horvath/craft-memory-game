@@ -4,11 +4,13 @@ import { RootState } from 'redux/store';
 export interface CounterState {
   value: number;
   best: number;
+  audioEnabled: boolean;
 }
 
 const initialState: CounterState = {
   value: 0,
   best: 0,
+  audioEnabled: true,
 };
 
 export const counterSlice = createSlice({
@@ -34,10 +36,13 @@ export const counterSlice = createSlice({
         state.best = action.payload;
       }
     },
+    toggleAudio: (state) => {
+      state.audioEnabled = !state.audioEnabled;
+    },
   },
 });
 
-export const { increment, decrement, reset, checkBestScore } = counterSlice.actions;
+export const { increment, decrement, reset, checkBestScore, toggleAudio } = counterSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -45,5 +50,7 @@ export const { increment, decrement, reset, checkBestScore } = counterSlice.acti
 export const selectCount = (state: RootState) => state.counter.value;
 
 export const selectBest = (state: RootState) => state.counter.best;
+
+export const selectAudio = (state: RootState) => state.counter.audioEnabled;
 
 export default counterSlice.reducer;

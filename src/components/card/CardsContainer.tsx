@@ -4,7 +4,7 @@ import Card from "components/card/Card";
 import { ICard } from "types";
 
 import { useAppDispatch, useAppSelector } from "redux/hooks";
-import { checkBestScore, increment, reset, selectCount } from "redux/counterSlice";
+import { checkBestScore, increment, reset, selectAudio, selectCount } from "redux/counterSlice";
 import { Modal } from "components/modal/Modal";
 import { CARD_COUNT } from "config";
 import { getShuffledCardsWithNewImages } from "lib/api";
@@ -21,6 +21,7 @@ export const CardsContainer = () => {
   const [openCards, setOpenCards] = useState<ICard[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const isAudioEnabled = useAppSelector(selectAudio);
   const [playDogBarkSound] = useSound(['/sounds/dog-bark-1.ogg', '/sounds/dog-bark-1.m4a']);
 
   const newGame = async () => {
@@ -66,7 +67,7 @@ export const CardsContainer = () => {
       firstCard.isInactive = true;
       secondCard.isInactive = true;
 
-      playDogBarkSound();
+      isAudioEnabled && playDogBarkSound();
       setMatches((prev) => ({ ...prev, [firstCard.url]: true }));
     } else {
       firstCard.isFlipped = false;

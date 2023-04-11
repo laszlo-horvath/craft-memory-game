@@ -9,6 +9,7 @@ describe('counter reducer', () => {
   const initialState: CounterState = {
     value: 3,
     best: 5,
+    audioEnabled: true,
   };
   // it('should handle initial state', () => {
   //   expect(counterReducer(undefined, { type: 'unknown' })).toEqual({

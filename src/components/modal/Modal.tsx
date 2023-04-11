@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import useSound from 'use-sound';
-import { selectBest } from "redux/counterSlice";
+import { selectAudio, selectBest } from "redux/counterSlice";
 import { useAppSelector } from "redux/hooks";
 
 interface ModalProps {
@@ -33,13 +33,14 @@ export const Modal = ({ isModalOpen, onCtaClick }: ModalProps) => {
   const [gif, setGif] = useState(getRandomGif());
   const best = useAppSelector(selectBest);
 
+  const isAudioEnabled = useAppSelector(selectAudio);
   const [playTadaSound] = useSound(['/sounds/tada.ogg', '/sounds/tada.m4a']);
 
   const [message1, message2] = descriptions;
 
   useEffect(() => {
     if (isModalOpen) {
-      playTadaSound();
+      isAudioEnabled && playTadaSound();
       setTitle(getRandomTitle());
       setDescriptions(getRandomMessage());
       setGif(getRandomGif());

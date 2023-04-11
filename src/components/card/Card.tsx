@@ -1,6 +1,8 @@
 import cx from "classnames";
 import useSound from 'use-sound';
 import type { ICard } from "types";
+import { useAppSelector } from "redux/hooks";
+import { selectAudio } from "redux/counterSlice";
 
 interface CardProps {
   card: ICard;
@@ -9,12 +11,13 @@ interface CardProps {
 }
 
 const Card = ({ card, onClick, isDisabled }: CardProps) => {
+  const isAudioEnabled = useAppSelector(selectAudio);
   const [playCardFlipSound] = useSound(['/sounds/card-flip.ogg', '/sounds/card-flip.m4a']);
 
   const onCardClick = () => {
     if (!card.isFlipped && !isDisabled) {
       onClick(card);
-      playCardFlipSound();
+      isAudioEnabled && playCardFlipSound();
     }
   };
 
