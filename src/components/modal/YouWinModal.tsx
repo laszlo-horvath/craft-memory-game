@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import useSound from 'use-sound';
-import { selectAudio, selectBest } from "redux/counterSlice";
+import { selectAudio, selectPlayerCount, selectPlayersBestScore, selectPlayersScore } from "redux/counterSlice";
 import { useAppSelector } from "redux/hooks";
 
 interface ModalProps {
@@ -20,23 +20,27 @@ const messages = [
 const gifs = [
   "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWU3OGE5YWYyMzU0YWE4NTE0NjZjMGNjM2FkYTllZmI0MjVmMjhkZSZjdD1n/pHZdGyFNp5sUXq4jp5/giphy.gif",
   "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmE0OGRkMGFlMDNhN2M5Yjc3NzhlMmJmYmMyZmExMjQ0ODM3NDFmNCZjdD1n/m5SLTWdACYbUe9Ge9F/giphy.gif",
-  "https://media2.giphy.com/media/l3vR3SsWC9b87lT0s/giphy.gif?cid=ecf05e47pgrfs4j00socjshtbtjgfbf0x5dc1cljrlmaq2p1&rid=giphy.gif&,"
+  "https://media2.giphy.com/media/l3vR3SsWC9b87lT0s/giphy.gif?cid=ecf05e47pgrfs4j00socjshtbtjgfbf0x5dc1cljrlmaq2p1&rid=giphy.gif"
 ];
 
 const getRandomTitle = () => titles[Math.floor(Math.random() * titles.length)];
 const getRandomMessage = () => messages[Math.floor(Math.random() * messages.length)];
 const getRandomGif = () => gifs[Math.floor(Math.random() * gifs.length)];
 
-export const Modal = ({ isModalOpen, onCtaClick }: ModalProps) => {
+export const YouWinModal = ({ isModalOpen, onCtaClick }: ModalProps) => {
   const [title, setTitle] = useState(getRandomTitle());
   const [descriptions, setDescriptions] = useState(getRandomMessage());
   const [gif, setGif] = useState(getRandomGif());
-  const best = useAppSelector(selectBest);
+
+  const [ player1, player2 ] = useAppSelector(selectPlayersScore);
+  const [ player1Best, player2Best ] = useAppSelector(selectPlayersBestScore);
+  const playerCount = useAppSelector(selectPlayerCount);
 
   const isAudioEnabled = useAppSelector(selectAudio);
   const [playTadaSound] = useSound(['/sounds/tada.ogg', '/sounds/tada.m4a']);
 
   const [message1, message2] = descriptions;
+  const isSinglePlayer = playerCount === 1;
 
   useEffect(() => {
     if (isModalOpen) {
@@ -84,9 +88,19 @@ export const Modal = ({ isModalOpen, onCtaClick }: ModalProps) => {
                     <div className="my-4 min-h-[30vh]">
                       <img className="rounded-lg mx-auto !h-[calc(30vh)]" src={gif} alt="Happy Dog Gif" />
                     </div>
-                    <p className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2">
-                      Your top-dog record stands at <span className="">{best}</span> moves!
-                    </p>
+
+                    {isSinglePlayer && (
+                      <p className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2">
+                        Your top-dog record stands at <span className="">{player1Best}</span> moves!
+                      </p>
+                    )}
+
+                    {!isSinglePlayer && player1 && player2 && (
+                      <p className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2">
+                        The winner is {player1 > player2 ? "Player 1" : "Player 2"}!
+                      </p>
+                    )}
+
                     <p className="text-sm text-gray-500">
                       {message1}<br/>{message2}
                     </p>

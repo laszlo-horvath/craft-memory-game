@@ -1,4 +1,4 @@
-import { ICard } from "types";
+import type { ICard } from "types";
 import { API_URL } from "config";
 import { fetcher, shuffle } from "lib/utils";
 

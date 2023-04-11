@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import useSound from 'use-sound';
 import Card from "components/card/Card";
-import { ICard } from "types";
+import type { ICard } from "types";
 
 import { useAppDispatch, useAppSelector } from "redux/hooks";
-import { checkBestScore, increment, reset, selectAudio, selectCount } from "redux/counterSlice";
-import { Modal } from "components/modal/Modal";
+import { addScore, checkBestScore, makeStep, reset, selectActivePlayer, selectAudio, selectPlayersScore, toggleActivePlayer } from "redux/counterSlice";
+import { YouWinModal } from "components/modal/YouWinModal";
 import { CARD_COUNT } from "config";
 import { getShuffledCardsWithNewImages } from "lib/api";
+import { Player } from "types/enums";
 
 export const CardsContainer = () => {
   // redux store
   const dispatch = useAppDispatch();
-  const moves = useAppSelector(selectCount);
+  const [ player1, player2 ] = useAppSelector(selectPlayersScore);
+  const activePlayer = useAppSelector(selectActivePlayer);
 
   // local states
   const [cards, setCards] = useState<ICard[]>([]);
@@ -50,7 +52,7 @@ export const CardsContainer = () => {
 
   const checkProgress = () => {
     if (Object.keys(matches).length === CARD_COUNT / 2) {
-      dispatch(checkBestScore(moves));
+      dispatch(checkBestScore({ player: activePlayer, highScore: activePlayer === "player1" ? (player1 as number) : (player2 as number) }));
 
       // wait the card animation to finish
       setTimeout(() => {
@@ -69,9 +71,12 @@ export const CardsContainer = () => {
 
       isAudioEnabled && playDogBarkSound();
       setMatches((prev) => ({ ...prev, [firstCard.url]: true }));
+      dispatch(addScore(activePlayer));
     } else {
       firstCard.isFlipped = false;
       secondCard.isFlipped = false;
+
+      dispatch(toggleActivePlayer());
     }
 
     setIsDisabled(false);
@@ -83,7 +88,7 @@ export const CardsContainer = () => {
 
     if (openCards.length === 1) {
       setOpenCards((prev) => [...prev, card]);
-      dispatch(increment());
+      dispatch(makeStep(activePlayer));
       setIsDisabled(true);
     } else {
       setOpenCards([card]);
@@ -92,7 +97,8 @@ export const CardsContainer = () => {
 
   const restartGame = () => {
     newGame();
-    dispatch(reset());
+    dispatch(reset(Player.Player1));
+    dispatch(reset(Player.Player2));
     setOpenCards([]);
     setMatches({});
 
@@ -115,13 +121,14 @@ export const CardsContainer = () => {
                 onClick={onCardClick}
                 card={card}
                 isDisabled={isDisabled}
+                activePlayer={activePlayer}
               />
             ))}
           </div>
         </div>
       </div>
 
-      <Modal isModalOpen={isModalOpen} onCtaClick={restartGame} />
+      <YouWinModal isModalOpen={isModalOpen} onCtaClick={restartGame} />
     </>
   );
 };
