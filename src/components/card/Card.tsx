@@ -21,6 +21,10 @@ const Card = ({ card, onClick, isDisabled }: CardProps) => {
     }
   };
 
+  const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = "404.jpg";
+  };
+
   return (
     <div
       className={cx("relative w-full h-full rounded-md cursor-pointer duration-1000", {
@@ -39,9 +43,11 @@ const Card = ({ card, onClick, isDisabled }: CardProps) => {
       <div className={cx("duration-1000 transition-all absolute top-0 left-0 flip-2-start backface-hidden ff-backface-fix safari-backface-fix w-full h-full rounded-md shadow-md overflow-hidden", {
         "flip-2-end": card.isFlipped === true,
       })}>
-          <div
-            className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${card.url})` }}
+          <img
+            alt={`Dog #${card.index}`}
+            src={card.url}
+            className="w-full h-full object-cover"
+            onError={(e) => onImageError(e)}
           />
       </div>
     </div>
