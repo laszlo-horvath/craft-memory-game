@@ -99,6 +99,7 @@ export const CardsContainer = () => {
     newGame();
     dispatch(reset(Player.Player1));
     dispatch(reset(Player.Player2));
+    dispatch(toggleActivePlayer());
     setOpenCards([]);
     setMatches({});
 

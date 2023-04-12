@@ -18,7 +18,7 @@ export const Header = () => {
   const dispatch = useAppDispatch();
   const [player1Steps] = useAppSelector(selectPlayerSteps);
   const [player1Score, player2Score] = useAppSelector(selectPlayersScore);
-  const [player1Best, player2Best] = useAppSelector(selectPlayersBestScore);
+  const [player1Best] = useAppSelector(selectPlayersBestScore);
   const activePlayer = useAppSelector(selectActivePlayer);
   const playerCount = useAppSelector(selectPlayerCount);
   const isAudioEnabled = useAppSelector(selectAudio);
@@ -48,7 +48,7 @@ export const Header = () => {
           />
           Pawsome Pairs
         </div>
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-center gap-x-0.5 md:gap-x-2">
           {!isSinglePlayer && (
             <p
               className={cx("text-sm px-1.5 py-0.5 transition-colors", {
@@ -63,7 +63,7 @@ export const Header = () => {
 
           {isSinglePlayer && (
             <p className="text-sm px-1.5 py-0.5">
-              Attempts: <span className={cx({
+              P1: <span className={cx({
               "text-green-400": player1Best as number === 0 || (player1Steps as number) <= (player1Best as number),
               "text-red-400": player1Best as number > 0 && (player1Steps as number) > (player1Best as number),
             })}>{player1Steps}</span>{poorPerformanceIndicator(player1Best as number, player1Steps as number)}
@@ -72,7 +72,7 @@ export const Header = () => {
 
           {isSinglePlayer && (player1Best as number) > 0 && (
             <p className="text-sm">
-              Record: <span>{player1Best}</span>
+              Best: <span>{player1Best}</span>
             </p>
           )}
 
@@ -90,7 +90,7 @@ export const Header = () => {
 
           <div
             onClick={() => toggleAudioEffects()}
-            className={cx("cursor-pointer w-4 h-4 bg-cover", {
+            className={cx("cursor-pointer w-4 h-4 bg-cover ml-1", {
               "bg-left": isAudioEnabled,
               "bg-right": !isAudioEnabled,
             })}

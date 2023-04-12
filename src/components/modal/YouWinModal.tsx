@@ -33,7 +33,7 @@ export const YouWinModal = ({ isModalOpen, onCtaClick }: ModalProps) => {
   const [gif, setGif] = useState(getRandomGif());
 
   const [ player1, player2 ] = useAppSelector(selectPlayersScore);
-  const [ player1Best, player2Best ] = useAppSelector(selectPlayersBestScore);
+  const [ player1Best ] = useAppSelector(selectPlayersBestScore);
   const playerCount = useAppSelector(selectPlayerCount);
 
   const isAudioEnabled = useAppSelector(selectAudio);
