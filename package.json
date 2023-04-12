@@ -5,8 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
-    "eject": "react-scripts eject"
+    "test": "jest"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.13",

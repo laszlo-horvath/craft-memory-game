@@ -95,9 +95,9 @@ export const YouWinModal = ({ isModalOpen, onCtaClick }: ModalProps) => {
                       </p>
                     )}
 
-                    {!isSinglePlayer && player1 && player2 && (
+                    {!isSinglePlayer && (
                       <p className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2">
-                        The winner is {player1 > player2 ? "Player 1" : "Player 2"}!
+                        The winner is {(player1 as number) > (player2 as number) ? "Player 1" : "Player 2"}!
                       </p>
                     )}
 
