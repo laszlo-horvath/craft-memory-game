@@ -3,7 +3,7 @@ import { RootState } from 'redux/store';
 import { Player } from 'types/enums';
 
 // data stored for each player
-type PlayerInfo = {
+export type PlayerInfo = {
   steps: number; // pair tries in one game, checking 2 cards means 1 step
   best: number; // lowest number of steps to win the game (in 1 player game)
   score: number; // number of times pair found (in 2 player game)

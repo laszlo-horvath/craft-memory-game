@@ -10,5 +10,6 @@ module.exports = {
     "^redux/(.*)$": "<rootDir>/src/redux/$1",
     "config": "<rootDir>/src/config/index.ts",
     "^lib/(.*)$": "<rootDir>/src/lib/$1",
+    "^types/(.*)$": "<rootDir>/src/types/$1",
   },
 }
