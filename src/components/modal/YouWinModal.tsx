@@ -41,6 +41,7 @@ export const YouWinModal = ({ isModalOpen, onCtaClick }: ModalProps) => {
 
   const [message1, message2] = descriptions;
   const isSinglePlayer = playerCount === 1;
+  const isTie = (player1 as number) === (player2 as number);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -95,9 +96,15 @@ export const YouWinModal = ({ isModalOpen, onCtaClick }: ModalProps) => {
                       </p>
                     )}
 
-                    {!isSinglePlayer && (
+                    {!isSinglePlayer && !isTie && (
                       <p className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2">
                         The winner is {(player1 as number) > (player2 as number) ? "Player 1" : "Player 2"}!
+                      </p>
+                    )}
+
+                    {!isSinglePlayer && isTie && (
+                      <p className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-2">
+                        It's a "tail-wagging" TIE!
                       </p>
                     )}
 
