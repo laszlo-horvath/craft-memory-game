@@ -4,7 +4,7 @@ import Card from "components/card/Card";
 import type { ICard } from "types";
 
 import { useAppDispatch, useAppSelector } from "redux/hooks";
-import { addScore, checkBestScore, makeStep, reset, selectActivePlayer, selectAudio, selectPlayersScore, toggleActivePlayer } from "redux/counterSlice";
+import { addScore, checkBestScore, makeStep, reset, selectActivePlayer, selectAudio, selectPlayerSteps, selectPlayersScore, toggleActivePlayer } from "redux/counterSlice";
 import { YouWinModal } from "components/modal/YouWinModal";
 import { CARD_COUNT } from "config";
 import { getShuffledCardsWithNewImages } from "lib/api";
@@ -14,6 +14,7 @@ export const CardsContainer = () => {
   // redux store
   const dispatch = useAppDispatch();
   const [ player1, player2 ] = useAppSelector(selectPlayersScore);
+  const [ player1Steps, player2Steps ] = useAppSelector(selectPlayerSteps);
   const activePlayer = useAppSelector(selectActivePlayer);
 
   // local states
@@ -52,7 +53,7 @@ export const CardsContainer = () => {
 
   const checkProgress = () => {
     if (Object.keys(matches).length === CARD_COUNT / 2) {
-      dispatch(checkBestScore({ player: activePlayer, highScore: activePlayer === "player1" ? (player1 as number) : (player2 as number) }));
+      dispatch(checkBestScore({ player: activePlayer, highScore: activePlayer === "player1" ? (player1Steps as number) : (player2Steps as number) }));
 
       // wait the card animation to finish
       setTimeout(() => {
